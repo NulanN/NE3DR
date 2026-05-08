@@ -15,7 +15,7 @@
 //#include <GL/gl.h>
 //#include <vulkan/vulkan.h>
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 float vertices[] = {
     // positions          // colors           // texture coords
@@ -34,6 +34,7 @@ unsigned int indices[] =
 
 void testFunction()
 {
+    std::cout << std::filesystem::current_path() << std::endl;
     glm::vec4 vec(1.0, 0.0, 0.0, 1.0);
     glm::mat4 trans(1.0);
     trans =  glm::translate(trans, glm::vec3(1.0,1.0,0.0));
@@ -105,7 +106,6 @@ unsigned int generateTexture(std::string imagePath, bool flipImage = false)
 
     int width, height, nbChannels;
 
-    //std::cout << std::filesystem::current_path() << std::endl;
     if(flipImage)
         stbi_set_flip_vertically_on_load(true); 
     unsigned char *data = stbi_load(imagePath.c_str(),  &width, &height, &nbChannels, 0);
@@ -182,10 +182,10 @@ int initGLFW(GLFWwindow * window)
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
-    unsigned int texture = generateTexture("/home/nolan/Projet/NE3DR/source/texture/images/wall.jpg");
-    unsigned int texture2 = generateTexture("/home/nolan/Projet/NE3DR/source/texture/images/awesomeface.png", true);
+    unsigned int texture = generateTexture("../source/texture/images/wall.jpg");
+    unsigned int texture2 = generateTexture("../source/texture/images/awesomeface.png", true);
 
-    shader Shader("/home/nolan/Projet/NE3DR/source/viewer/vertex_shader.glsl", "/home/nolan/Projet/NE3DR/source/viewer/fragment_shader.glsl");
+    shader Shader("../source/viewer/vertex_shader.glsl", "../source/viewer/fragment_shader.glsl");
 
     Shader.use();
     glUniform1i(glGetUniformLocation(Shader.getID(), "ourTexture"), 0);

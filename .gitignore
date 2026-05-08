@@ -1,0 +1,4 @@
+build/
+.vscode/
+test_files
+NE3DR.code-workspace

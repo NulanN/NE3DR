@@ -128,6 +128,12 @@ unsigned int generateTexture(std::string imagePath, bool flipImage = false)
     return texture;
 }
 
+void rotate(glm::mat4 & in)
+{
+    in = glm::rotate(in, (float)glfwGetTime(), glm::vec3(0.0,0.0,1.0));
+    //in = glm::scale(in, glm::vec3(0.5,0.5,0.5));
+}
+
 int initGLFW(GLFWwindow * window)
 {
 
@@ -139,7 +145,7 @@ int initGLFW(GLFWwindow * window)
     //glfwWindowHint(GLFW_CENTER_CURSOR, GLFW_TRUE);
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   
-    window = glfwCreateWindow(1280, 720, "NE3DR", NULL, NULL);
+    window = glfwCreateWindow(800, 800, "NE3DR", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -193,6 +199,9 @@ int initGLFW(GLFWwindow * window)
     glUniform1i(glGetUniformLocation(Shader.getID(), "ourTexture"), 0);
     Shader.setInt("ourTexture2", 1);
 
+    glm::mat4 transformMatrix(1.0);
+
+
     float red = 0.2,green = 0.4,blue = 0.3,alpha = 1.;
     while(!glfwWindowShouldClose(window))
     {
@@ -201,6 +210,12 @@ int initGLFW(GLFWwindow * window)
         glClearColor(red,green,blue,alpha);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        //Shader.getMatrix4("transform", transformMatrix);
+        transformMatrix = glm::mat4(1.0);
+        transformMatrix = glm::translate(transformMatrix, glm::vec3(0.5, -0.5, 0.0));
+        rotate(transformMatrix);
+        unsigned int transformLoc = glGetUniformLocation(Shader.getID(), "transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformMatrix));
 
         //Shader.setFloat("h_offset", 0.0f);
 

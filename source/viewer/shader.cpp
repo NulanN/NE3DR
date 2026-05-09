@@ -98,3 +98,8 @@ void shader::getFloat(const std::string &name, float &value)
 {
     glGetUniformfv(_id, glGetUniformLocation(_id, name.c_str()), &value);
 }
+
+void shader::getMatrix4(const std::string &name, glm::mat4 &value)
+{
+    glUniformMatrix4fv(_id, glGetUniformLocation(_id, name.c_str()), false ,&value[0][0]);
+}

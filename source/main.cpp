@@ -77,6 +77,7 @@ void process_input(GLFWwindow * window, shader Shader)
         if(variation < 1.0f)
         {
             variation += 0.005f;
+            if(variation > 1.0F) variation = 1.0f;
             Shader.setFloat("variation", variation);
         }
     }
@@ -88,6 +89,7 @@ void process_input(GLFWwindow * window, shader Shader)
         if(variation > 0.0f)
         {
             variation -= 0.005f;
+            if(variation < 0.0f) variation = 0.0f;
             Shader.setFloat("variation", variation);
         }
     }
